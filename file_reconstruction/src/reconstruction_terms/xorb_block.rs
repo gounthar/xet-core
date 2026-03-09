@@ -123,13 +123,18 @@ impl XorbBlock {
             .get_file_term_data(Box::new(url_provider), permit, progress_callback, self.uncompressed_size_if_known)
             .await?;
 
-        // Store in chunk cache (best-effort).
-        if let Some(ref cache) = chunk_cache {
-            let _ = cache.put(&cache_key, &self.chunk_range, &chunk_byte_offsets, &data).await;
-        }
-
         let chunk_offsets: Vec<usize> = chunk_byte_offsets.iter().map(|&x| x as usize).collect();
         let uncompressed_size = data.len() as u64;
+
+        // Store in chunk cache (best-effort, non-blocking).
+        // Spawned so the read path is not bottlenecked by disk write latency.
+        if let Some(cache) = chunk_cache {
+            let chunk_range = self.chunk_range;
+            let data = data.clone();
+            tokio::spawn(async move {
+                let _ = cache.put(&cache_key, &chunk_range, &chunk_byte_offsets, &data).await;
+            });
+        }
 
         let xorb_block_data = Arc::new(XorbBlockData {
             chunk_offsets,
