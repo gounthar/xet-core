@@ -79,7 +79,7 @@ fn test_environment_variable_aliases() {
 #[serial(config_env)]
 fn test_primary_env_var_precedence_over_alias() {
     {
-        let _guard1 = EnvVarGuard::set("HF_XET_MDB_SHARD_CACHE_SIZE_LIMIT", "8gb");
+        let _guard1 = EnvVarGuard::set("HF_XET_METADATA_SHARD_CACHE_SIZE_LIMIT", "8gb");
         let _guard2 = EnvVarGuard::set("HF_XET_SHARD_CACHE_SIZE_LIMIT", "32gb");
         assert_eq!(*XetConfig::new().metadata_shard.cache_size_limit, 8_000_000_000);
     }

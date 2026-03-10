@@ -6,14 +6,14 @@ crate::config_group!({
     ///
     /// The default value is 67108864.
     ///
-    /// Use the environment variable `HF_XET_MDB_SHARD_TARGET_SIZE` to set this value.
+    /// Use the environment variable `HF_XET_METADATA_SHARD_TARGET_SIZE` to set this value.
     ref target_size: u64 = 64 * 1024 * 1024;
 
     /// Maximum shard size; small shards are aggregated until they are at most this.
     ///
     /// The default value is 67108864.
     ///
-    /// Use the environment variable `HF_XET_MDB_SHARD_MAX_TARGET_SIZE` to set this value.
+    /// Use the environment variable `HF_XET_METADATA_SHARD_MAX_TARGET_SIZE` to set this value.
     ref max_target_size: u64 = 64 * 1024 * 1024;
 
     /// The (soft) maximum size in bytes of the shard cache.  Default is 16 GB.
@@ -26,7 +26,7 @@ crate::config_group!({
     ///
     /// The default value is 16gb.
     ///
-    /// Use the environment variable `HF_XET_MDB_SHARD_CACHE_SIZE_LIMIT` to set this value.
+    /// Use the environment variable `HF_XET_METADATA_SHARD_CACHE_SIZE_LIMIT` to set this value.
     ref cache_size_limit : ByteSize = ByteSize::from("16gb");
 
     /// The maximum size of the chunk index table that's stored in memory.  After this,
@@ -34,6 +34,6 @@ crate::config_group!({
     ///
     /// The default value is 67108864.
     ///
-    /// Use the environment variable `HF_XET_MDB_SHARD_CHUNK_INDEX_TABLE_MAX_SIZE` to set this value.
+    /// Use the environment variable `HF_XET_METADATA_SHARD_CHUNK_INDEX_TABLE_MAX_SIZE` to set this value.
     ref chunk_index_table_max_size: usize = 64 * 1024 * 1024;
 });
