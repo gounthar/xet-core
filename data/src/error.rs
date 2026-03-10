@@ -12,6 +12,7 @@ use xet_runtime::RuntimeError;
 use xet_runtime::core::par_utils::ParutilsError;
 use xet_runtime::utils::errors::SingleflightError;
 
+#[cfg(not(target_family = "wasm"))]
 use crate::file_reconstruction::FileReconstructionError;
 
 #[derive(Error, Debug)]
@@ -76,6 +77,7 @@ pub enum DataError {
     #[error("Permit acquisition error: {0}")]
     PermitAcquisitionError(#[from] AcquireError),
 
+    #[cfg(not(target_family = "wasm"))]
     #[error("File reconstruction error: {0}")]
     FileReconstructionError(#[from] FileReconstructionError),
 

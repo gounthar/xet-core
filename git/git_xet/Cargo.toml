@@ -9,7 +9,6 @@ path = "src/bin/main.rs"
 
 [dependencies]
 xet-runtime = { path = "../../runtime" }
-xet-core-structures = { path = "../../core_structures" }
 xet-client = { path = "../../client" }
 xet-data = { path = "../../data" }
 

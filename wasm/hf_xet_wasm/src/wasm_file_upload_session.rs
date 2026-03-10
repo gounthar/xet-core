@@ -2,9 +2,9 @@ use std::mem::{swap, take};
 use std::sync::Arc;
 
 use http::header::{self, HeaderValue};
-use merklehash::{HashedWrite, MerkleHash};
-use metadata_shard::MDBShardInfo;
-use metadata_shard::shard_in_memory::MDBInMemoryShard;
+use xet_core_structures::merklehash::{HashedWrite, MerkleHash};
+use xet_core_structures::metadata_shard::MDBShardInfo;
+use xet_core_structures::metadata_shard::shard_in_memory::MDBInMemoryShard;
 use tokio::sync::Mutex;
 use xet_client::cas_client::{Client, RemoteClient};
 use xet_core_structures::xorb_object::SerializedXorbObject;

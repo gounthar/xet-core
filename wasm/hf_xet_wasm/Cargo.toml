@@ -7,7 +7,6 @@ edition = "2024"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-xet-runtime = { path = "../../runtime" }
 xet-core-structures = { path = "../../core_structures" }
 xet-client = { path = "../../client" }
 xet-data = { path = "../../data" }
