@@ -66,11 +66,11 @@ fn test_environment_variable_aliases() {
     // MDB shard aliases
     {
         let _guard = EnvVarGuard::set("HF_XET_SHARD_CACHE_SIZE_LIMIT", "32gb");
-        assert_eq!(*XetConfig::new().metadata_shard.cache_size_limit, 32_000_000_000);
+        assert_eq!(*XetConfig::new().shard.cache_size_limit, 32_000_000_000);
     }
     {
         let _guard = EnvVarGuard::set("HF_XET_CHUNK_INDEX_TABLE_MAX_SIZE", "128000000");
-        assert_eq!(XetConfig::new().metadata_shard.chunk_index_table_max_size, 128_000_000);
+        assert_eq!(XetConfig::new().shard.chunk_index_table_max_size, 128_000_000);
     }
 }
 
@@ -79,9 +79,9 @@ fn test_environment_variable_aliases() {
 #[serial(config_env)]
 fn test_primary_env_var_precedence_over_alias() {
     {
-        let _guard1 = EnvVarGuard::set("HF_XET_METADATA_SHARD_CACHE_SIZE_LIMIT", "8gb");
-        let _guard2 = EnvVarGuard::set("HF_XET_SHARD_CACHE_SIZE_LIMIT", "32gb");
-        assert_eq!(*XetConfig::new().metadata_shard.cache_size_limit, 8_000_000_000);
+        let _guard1 = EnvVarGuard::set("HF_XET_SHARD_CACHE_SIZE_LIMIT", "8gb");
+        let _guard2 = EnvVarGuard::set("HF_XET_MDB_SHARD_CACHE_SIZE_LIMIT", "32gb");
+        assert_eq!(*XetConfig::new().shard.cache_size_limit, 8_000_000_000);
     }
 }
 
@@ -91,5 +91,5 @@ fn test_primary_env_var_precedence_over_alias() {
 fn test_default_values_when_no_env_vars_set() {
     let config = XetConfig::new();
     assert_eq!(config.data.max_concurrent_file_ingestion, 8);
-    assert_eq!(config.metadata_shard.chunk_index_table_max_size, 64 * 1024 * 1024);
+    assert_eq!(config.shard.chunk_index_table_max_size, 64 * 1024 * 1024);
 }

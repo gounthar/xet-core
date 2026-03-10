@@ -15,8 +15,8 @@ name = "run_upload_simulations"
 path = "src/bin/run_upload_simulations.rs"
 
 [dependencies]
-xet-runtime = { path = "../runtime" }
-xet-client = { path = "../client" }
+xet-runtime = { path = "../xet_runtime" }
+xet-client = { path = "../xet_client" }
 
 chrono = { workspace = true }
 duration-str = { workspace = true }

@@ -8,8 +8,8 @@ name = "xet_client"
 path = "src/lib.rs"
 
 [dependencies]
-xet-runtime = { path = "../runtime" }
-xet-core-structures = { path = "../core_structures" }
+xet-runtime = { path = "../xet_runtime" }
+xet-core-structures = { path = "../xet_core_structures" }
 
 anyhow = { workspace = true }
 async-trait = { workspace = true }

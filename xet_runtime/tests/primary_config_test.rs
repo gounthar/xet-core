@@ -26,7 +26,7 @@ fn test_primary_config_struct() {
     let config = XetConfig::default();
 
     // Verify the struct has the correct fields (using actual XetConfig fields)
-    assert_eq!(config.metadata_shard.target_size, 64 * 1024 * 1024);
+    assert_eq!(config.shard.target_size, 64 * 1024 * 1024);
 }
 
 #[test]
@@ -35,7 +35,7 @@ fn test_primary_config_clone() {
     let config1 = XetConfig::new();
     let config2 = config1.clone();
 
-    assert_eq!(config1.metadata_shard.target_size, config2.metadata_shard.target_size);
+    assert_eq!(config1.shard.target_size, config2.shard.target_size);
 }
 
 #[test]
@@ -69,12 +69,12 @@ fn test_group_name_env_var_prefixing() {
     let config = XetConfig::new();
 
     assert_eq!(config.data.default_cas_endpoint, "http://test:8080");
-    assert_eq!(config.metadata_shard.target_size, 64 * 1024 * 1024); // Should still be default
+    assert_eq!(config.shard.target_size, 64 * 1024 * 1024); // Should still be default
 
-    // Test metadata_shard group
-    let _guard2 = EnvVarGuard::set("HF_XET_MDB_SHARD_TARGET_SIZE", "1000000");
+    // Test shard group
+    let _guard2 = EnvVarGuard::set("HF_XET_SHARD_TARGET_SIZE", "1000000");
     let config2 = XetConfig::new();
 
     assert_eq!(config2.data.default_cas_endpoint, "http://test:8080"); // Still from previous guard
-    assert_eq!(config2.metadata_shard.target_size, 1000000);
+    assert_eq!(config2.shard.target_size, 1000000);
 }

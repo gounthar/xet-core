@@ -7,8 +7,8 @@ edition = "2024"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-xet-core-structures = { path = "../../core_structures" }
-xet-data = { path = "../../data" }
+xet-core-structures = { path = "../../xet_core_structures" }
+xet-data = { path = "../../xet_data" }
 
 getrandom = { version = "0.3", features = ["wasm_js"] }
 serde = { version = "1", features = ["derive"] }

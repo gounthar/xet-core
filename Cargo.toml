@@ -3,11 +3,11 @@ resolver = "2"
 
 members = [
     # Consolidated packages
-    "runtime",
-    "core_structures",
-    "client",
-    "data",
-    "libxet",
+    "xet_runtime",
+    "xet_core_structures",
+    "xet_client",
+    "xet_data",
+    "xet",
 
     # Top-level crates (not published as packages)
     "git/git_xet",

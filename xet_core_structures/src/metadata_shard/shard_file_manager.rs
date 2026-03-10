@@ -104,7 +104,7 @@ impl ShardFileManager {
         session_directory: impl AsRef<Path>,
         scan_directory: bool,
     ) -> Result<Arc<Self>> {
-        Self::new_impl(session_directory, false, xet_config().metadata_shard.max_target_size, scan_directory, 0).await
+        Self::new_impl(session_directory, false, xet_config().shard.max_target_size, scan_directory, 0).await
     }
 
     // Construction functions
@@ -112,9 +112,9 @@ impl ShardFileManager {
         Self::new_impl(
             cache_directory,
             true,
-            xet_config().metadata_shard.max_target_size,
+            xet_config().shard.max_target_size,
             true,
-            xet_config().metadata_shard.cache_size_limit.as_u64(),
+            xet_config().shard.cache_size_limit.as_u64(),
         )
         .await
     }
@@ -270,7 +270,7 @@ impl ShardFileManager {
                     }
 
                     let update_chunk_lookup =
-                        sbkp_lg.total_indexed_chunks < xet_config().metadata_shard.chunk_index_table_max_size;
+                        sbkp_lg.total_indexed_chunks < xet_config().shard.chunk_index_table_max_size;
 
                     let shard_hash = s.shard_hash;
 
@@ -805,7 +805,7 @@ mod tests {
 
             // Now, merge shards in the background.
             let merged_shards =
-                consolidate_shards_in_directory(tmp_dir.path(), xet_config().metadata_shard.max_target_size, false)?;
+                consolidate_shards_in_directory(tmp_dir.path(), xet_config().shard.max_target_size, false)?;
 
             assert_eq!(merged_shards.len(), 1);
             for si in merged_shards {
@@ -881,7 +881,7 @@ mod tests {
 
             {
                 let merged_shards =
-                    consolidate_shards_in_directory(tmp_dir.path(), xet_config().metadata_shard.max_target_size, false)
+                    consolidate_shards_in_directory(tmp_dir.path(), xet_config().shard.max_target_size, false)
                         .unwrap();
 
                 assert_eq!(merged_shards.len(), 1);
@@ -1104,7 +1104,7 @@ mod tests {
     }
 
     async fn shard_list_with_timestamp_filtering(path: &Path) -> Result<Vec<Arc<MDBShardFile>>> {
-        Ok(ShardFileManager::new_impl(path, false, xet_config().metadata_shard.max_target_size, true, 0)
+        Ok(ShardFileManager::new_impl(path, false, xet_config().shard.max_target_size, true, 0)
             .await?
             .registered_shard_list()
             .await?)

@@ -14,7 +14,7 @@ pub use crate::utils::configuration_utils::ParsableConfigValue;
 
 pub type ReconstructionConfig = groups::reconstruction::ConfigValues;
 pub type DataConfig = groups::data::ConfigValues;
-pub type MdbShardConfig = groups::metadata_shard::ConfigValues;
+pub type MdbShardConfig = groups::shard::ConfigValues;
 pub type DeduplicationConfig = groups::deduplication::ConfigValues;
 pub type ChunkCacheConfig = groups::chunk_cache::ConfigValues;
 pub type ClientConfig = groups::client::ConfigValues;

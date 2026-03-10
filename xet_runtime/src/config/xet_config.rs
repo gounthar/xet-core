@@ -5,7 +5,7 @@ use crate::utils::ByteSize;
 #[derive(Debug, Clone, Default)]
 pub struct XetConfig {
     pub data: groups::data::ConfigValues,
-    pub metadata_shard: groups::metadata_shard::ConfigValues,
+    pub shard: groups::shard::ConfigValues,
     pub deduplication: groups::deduplication::ConfigValues,
     pub chunk_cache: groups::chunk_cache::ConfigValues,
     pub client: groups::client::ConfigValues,
@@ -36,7 +36,7 @@ impl XetConfig {
     /// Environment variables follow the pattern: HF_XET_{GROUP_NAME}_{FIELD_NAME}
     pub fn with_env_overrides(mut self) -> Self {
         self.data.apply_env_overrides();
-        self.metadata_shard.apply_env_overrides();
+        self.shard.apply_env_overrides();
         self.deduplication.apply_env_overrides();
         self.chunk_cache.apply_env_overrides();
         self.client.apply_env_overrides();

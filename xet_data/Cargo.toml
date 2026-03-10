@@ -9,9 +9,9 @@ path = "src/lib.rs"
 doctest = false
 
 [dependencies]
-xet-runtime = { path = "../runtime" }
-xet-core-structures = { path = "../core_structures" }
-xet-client = { path = "../client" }
+xet-runtime = { path = "../xet_runtime" }
+xet-core-structures = { path = "../xet_core_structures" }
+xet-client = { path = "../xet_client" }
 
 anyhow = { workspace = true }
 async-trait = { workspace = true }

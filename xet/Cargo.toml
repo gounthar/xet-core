@@ -13,10 +13,10 @@ name = "xet"
 path = "src/lib.rs"
 
 [dependencies]
-xet-runtime = { path = "../runtime" }
-xet-core-structures = { path = "../core_structures" }
-xet-client = { path = "../client" }
-xet-data = { path = "../data" }
+xet-runtime = { path = "../xet_runtime" }
+xet-core-structures = { path = "../xet_core_structures" }
+xet-client = { path = "../xet_client" }
+xet-data = { path = "../xet_data" }
 
 async-trait = { workspace = true }
 http = { workspace = true }

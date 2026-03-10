@@ -81,7 +81,7 @@ impl SessionShardInterface {
                 Some(merge_shards_background(
                     &xorb_metadata_staging_dir,
                     &session_dir,
-                    xet_config().metadata_shard.max_target_size,
+                    xet_config().shard.max_target_size,
                     true,
                 ))
             } else {
@@ -240,7 +240,7 @@ impl SessionShardInterface {
         // First, scan, merge, and fill out any shards in the session directory
         let shard_list = consolidate_shards_in_directory(
             self.session_shard_manager.shard_directory(),
-            xet_config().metadata_shard.max_target_size,
+            xet_config().shard.max_target_size,
             // Here, we want to error out if some of the information isn't present or corrupt, so set skip_on_error to
             // false.
             false,

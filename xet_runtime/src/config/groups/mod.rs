@@ -3,7 +3,7 @@ pub mod client;
 pub mod data;
 pub mod deduplication;
 pub mod log;
-pub mod metadata_shard;
+pub mod shard;
 pub mod reconstruction;
 #[cfg(not(target_family = "wasm"))]
 pub mod system_monitor;

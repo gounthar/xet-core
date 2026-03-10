@@ -20,11 +20,11 @@ names and paths listed below.
 
 | New Package (dir) | Crate name (`Cargo.toml`) | Rust import name |
 |---|---|---|
-| `runtime/` | `xet-runtime` | `xet_runtime` |
-| `core_structures/` | `xet-core-structures` | `xet_core_structures` |
-| `client/` | `xet-client` | `xet_client` |
-| `data/` | `xet-data` | `xet_data` |
-| `libxet/` | `xet` | `xet` |
+| `xet_runtime/` | `xet-runtime` | `xet_runtime` |
+| `xet_core_structures/` | `xet-core-structures` | `xet_core_structures` |
+| `xet_client/` | `xet-client` | `xet_client` |
+| `xet_data/` | `xet-data` | `xet_data` |
+| `xet/` | `xet` | `xet` |
 | `git/git_xet/` | `git_xet` | `git_xet` |
 | `simulation/` | `simulation` | `simulation` |
 
@@ -298,7 +298,7 @@ Replaces: `MultithreadedRuntimeError`
 
 **Backward-compatibility alias:**
 ```rust
-// In runtime/src/core/errors.rs:
+// In xet_runtime/src/core/errors.rs:
 pub use crate::error::RuntimeError as MultithreadedRuntimeError;
 ```
 
@@ -349,10 +349,10 @@ Replaces: `MDBShardError`, `XorbObjectError`
 
 **Backward-compatibility aliases:**
 ```rust
-// In core_structures/src/metadata_shard/error.rs:
+// In xet_core_structures/src/metadata_shard/error.rs:
 pub use crate::error::FormatError as MDBShardError;
 
-// In core_structures/src/xorb_object/error.rs:
+// In xet_core_structures/src/xorb_object/error.rs:
 pub use crate::error::{FormatError as XorbObjectError, Result, Validate};
 ```
 
@@ -409,14 +409,14 @@ Replaces: `CasClientError`, `HubClientError`, `CasTypesError`
 
 **Backward-compatibility aliases:**
 ```rust
-// In client/src/cas_client/error.rs:
+// In xet_client/src/cas_client/error.rs:
 pub use crate::error::{ClientError as CasClientError, Result};
 
-// In client/src/hub_client/errors.rs:
+// In xet_client/src/hub_client/errors.rs:
 pub use crate::error::ClientError as HubClientError;
 // Also retains: HubClientError::credential_helper_error() helper method
 
-// In client/src/cas_types/error.rs:
+// In xet_client/src/cas_types/error.rs:
 pub use crate::error::ClientError as CasTypesError;
 ```
 
@@ -489,7 +489,7 @@ Replaces: `DataProcessingError`
 
 **Backward-compatibility alias:**
 ```rust
-// In data/src/processing/errors.rs:
+// In xet_data/src/processing/errors.rs:
 pub use crate::error::DataError as DataProcessingError;
 ```
 
@@ -556,7 +556,7 @@ This is the top-level public error type.  Variants are divided into
 
 **Backward-compatibility alias:**
 ```rust
-// In libxet/src/xet_session/errors.rs:
+// In xet/src/xet_session/errors.rs:
 pub use crate::error::XetError as SessionError;
 ```
 
