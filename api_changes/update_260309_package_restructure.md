@@ -704,11 +704,11 @@ progress_tracking = { path = "../progress_tracking" }
 xet-session = { path = "../xet_session" }
 
 # New
-xet-runtime = { path = "../runtime" }          # or "../../runtime" from wasm/
-xet-core-structures = { path = "../core_structures" }
-xet-client = { path = "../client" }
-xet-data = { path = "../data" }
-xet = { path = "../libxet" }
+xet-runtime = { path = "../xet_runtime" }          # or "../../xet_runtime" from wasm/
+xet-core-structures = { path = "../xet_core_structures" }
+xet-client = { path = "../xet_client" }
+xet-data = { path = "../xet_data" }
+xet = { path = "../xet" }
 ```
 
 The `git_xet` crate moved from `git_xet/` to `git/git_xet/`, so its relative
