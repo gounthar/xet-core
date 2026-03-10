@@ -10,7 +10,7 @@ runs:
           ~/.cargo/registry
           ~/.cargo/git
           target
-          hf_xet/target
-          hf_xet_wasm/target
-          hf_xet_thin_wasm/target
+          bindings/hf_xet/target
+          bindings/hf_xet_wasm/target
+          bindings/hf_xet_thin_wasm/target
         key: ${{ runner.os }}-${{ runner.arch }}-cargo-${{ hashFiles('**/Cargo.lock') }}

@@ -33,7 +33,7 @@ jobs:
         with:
           command: develop
           sccache: 'true'
-          working-directory: hf_xet
+          working-directory: bindings/hf_xet
       - name: Install huggingface_hub dependencies
         run: |
           source .venv/bin/activate
@@ -44,5 +44,5 @@ jobs:
           pytest huggingface_hub/tests/test_xet_*.py
       - name: Check Cargo.lock has no uncommitted changes
         run: |
-          # the Build wheel step would update hf_xet/Cargo.lock if it is out of date
-          test -z "$(git status --porcelain hf_xet/Cargo.lock)" || (echo "hf_xet/Cargo.lock has uncommitted changes!" && exit 1)
+          # the Build wheel step would update bindings/hf_xet/Cargo.lock if it is out of date
+          test -z "$(git status --porcelain bindings/hf_xet/Cargo.lock)" || (echo "bindings/hf_xet/Cargo.lock has uncommitted changes!" && exit 1)

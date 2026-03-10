@@ -58,7 +58,7 @@ jobs:
           cargo build --release --features "git2-vendored-openssl"
           mkdir dist
           cp target/release/git-xet dist/
-          cp git_xet/entitlements.xml dist/
+          cp git/git_xet/entitlements.xml dist/
       - name: Codesign and Notarization
         uses: lando/code-sign-action@v3
         with:
@@ -109,7 +109,7 @@ jobs:
           azure_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
       - name: Build installer
         run: |
-          cp git_xet/windows_installer/Package.wxs dist/
+          cp git/git_xet/windows_installer/Package.wxs dist/
           cd dist
           wix build Package.wxs -o bin\git-xet-windows-installer -arch ${{ matrix.platform.wix_arch }}
       - name: Codesign the installer

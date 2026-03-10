@@ -1,24 +1,9 @@
-pub mod configurations;
-pub mod data_client;
-mod deduplication_interface;
-pub mod errors;
-mod file_cleaner;
-mod file_download_session;
-mod file_upload_session;
-pub mod migration_tool;
-mod prometheus_metrics;
-mod remote_client_interface;
-mod sha256;
-mod shard_interface;
-mod xet_file;
+#![cfg_attr(feature = "strict", deny(warnings))]
 
-// Reexport this one for now
-pub use deduplication::RawXorbData;
-pub use file_cleaner::{Sha256Policy, SingleFileCleaner};
-pub use file_download_session::FileDownloadSession;
-pub use file_reconstruction::DownloadStream;
-pub use file_upload_session::FileUploadSession;
-pub use xet_file::XetFileInfo;
+pub mod error;
+pub use error::DataError;
 
-#[cfg(debug_assertions)]
-pub mod test_utils;
+pub mod deduplication;
+pub mod file_reconstruction;
+pub mod processing;
+pub mod progress_tracking;

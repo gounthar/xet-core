@@ -3,9 +3,9 @@ use std::io::{BufRead, BufReader, Read, Write};
 use std::path::PathBuf;
 
 use clap::Parser;
-use mdb_shard::chunk_verification::range_hash_from_chunks;
-use merklehash::{MerkleHash, compute_data_hash, file_hash, xorb_hash};
 use regex::Regex;
+use xet_core_structures::merklehash::{MerkleHash, compute_data_hash, file_hash, xorb_hash};
+use xet_core_structures::metadata_shard::chunk_verification::range_hash_from_chunks;
 
 #[derive(Debug, Copy, Clone)]
 enum HashType {

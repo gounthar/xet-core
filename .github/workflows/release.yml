@@ -52,7 +52,7 @@ jobs:
         run: |
           VERSION=${TAG#v}
           if [ -n "$VERSION" ]; then
-            sed -i '/^version /s/=.*$/= "'"$VERSION"'"/' hf_xet/Cargo.toml
+            sed -i '/^version /s/=.*$/= "'"$VERSION"'"/' bindings/hf_xet/Cargo.toml
           fi
       - uses: ./.github/actions/set-build-profile
         with:
@@ -86,10 +86,10 @@ jobs:
             alias objcopy=aarch64-linux-gnu-objcopy
           fi
 
-          mkdir hf_xet/dbg
+          mkdir bindings/hf_xet/dbg
           mkdir dist
           pushd dist
-          cp ../hf_xet/dist/* .
+          cp ../bindings/hf_xet/dist/* .
           LATEST_WHEEL=$(ls -tr1 *.whl | tail -n 1)
           WHEEL_NAME=$(basename $LATEST_WHEEL .whl)
           WHEEL_VERSION=$(echo $LATEST_WHEEL | cut -d '-' -f 2)
@@ -99,20 +99,20 @@ jobs:
           objcopy --only-keep-debug hf_xet-${WHEEL_VERSION}/hf_xet/hf_xet.*.so hf_xet-${WHEEL_VERSION}/hf_xet/${SYMBOL_FILE}
           objcopy --strip-debug hf_xet-${WHEEL_VERSION}/hf_xet/hf_xet.*.so
           objcopy --add-gnu-debuglink=hf_xet-${WHEEL_VERSION}/hf_xet/${SYMBOL_FILE} hf_xet-${WHEEL_VERSION}/hf_xet/hf_xet.*.so
-          mv hf_xet-${WHEEL_VERSION}/hf_xet/${SYMBOL_FILE} ../hf_xet/dbg/${SYMBOL_FILE}
+          mv hf_xet-${WHEEL_VERSION}/hf_xet/${SYMBOL_FILE} ../bindings/hf_xet/dbg/${SYMBOL_FILE}
           wheel pack hf_xet-${WHEEL_VERSION}
           rm -rf hf_xet-${WHEEL_VERSION}
       - name: Copy unstripped wheels to upload directory
         if: env.IS_RELEASE != 'true'
         run: |
           mkdir dist
-          cp hf_xet/dist/* dist/
+          cp bindings/hf_xet/dist/* dist/
       - name: Upload debug symbols
         if: env.IS_RELEASE == 'true'
         uses: actions/upload-artifact@v6
         with:
           name: dbg-linux-${{ matrix.python-version }}-${{ matrix.platform.target }}
-          path: hf_xet/dbg
+          path: bindings/hf_xet/dbg
       - name: Upload wheels
         uses: actions/upload-artifact@v6
         with:
@@ -148,7 +148,7 @@ jobs:
         run: |
           VERSION=${TAG#v}
           if [ -n "$VERSION" ]; then
-            sed -i '/^version /s/=.*$/= "'"$VERSION"'"/' hf_xet/Cargo.toml
+            sed -i '/^version /s/=.*$/= "'"$VERSION"'"/' bindings/hf_xet/Cargo.toml
           fi
       - uses: ./.github/actions/set-build-profile
         with:
@@ -174,10 +174,10 @@ jobs:
             alias objcopy=aarch64-linux-gnu-objcopy
           fi
 
-          mkdir hf_xet/dbg
+          mkdir bindings/hf_xet/dbg
           mkdir dist
           pushd dist
-          cp ../hf_xet/dist/* .
+          cp ../bindings/hf_xet/dist/* .
           LATEST_WHEEL=$(ls -tr1 *.whl | tail -n 1)
           WHEEL_NAME=$(basename $LATEST_WHEEL .whl)
           WHEEL_VERSION=$(echo $LATEST_WHEEL | cut -d '-' -f 2)
@@ -187,20 +187,20 @@ jobs:
           objcopy --only-keep-debug hf_xet-${WHEEL_VERSION}/hf_xet/hf_xet.*.so hf_xet-${WHEEL_VERSION}/hf_xet/${SYMBOL_FILE}
           objcopy --strip-debug hf_xet-${WHEEL_VERSION}/hf_xet/hf_xet.*.so
           objcopy --add-gnu-debuglink=hf_xet-${WHEEL_VERSION}/hf_xet/${SYMBOL_FILE} hf_xet-${WHEEL_VERSION}/hf_xet/hf_xet.*.so
-          mv hf_xet-${WHEEL_VERSION}/hf_xet/${SYMBOL_FILE} ../hf_xet/dbg/${SYMBOL_FILE}
+          mv hf_xet-${WHEEL_VERSION}/hf_xet/${SYMBOL_FILE} ../bindings/hf_xet/dbg/${SYMBOL_FILE}
           wheel pack hf_xet-${WHEEL_VERSION}
           rm -rf hf_xet-${WHEEL_VERSION}
       - name: Copy unstripped wheels to upload directory
         if: env.IS_RELEASE != 'true'
         run: |
           mkdir dist
-          cp hf_xet/dist/* dist/
+          cp bindings/hf_xet/dist/* dist/
       - name: Upload debug symbols
         if: env.IS_RELEASE == 'true'
         uses: actions/upload-artifact@v6
         with:
           name: dbg-musllinux-${{ matrix.python-version }}-${{ matrix.platform.target }}
-          path: hf_xet/dbg
+          path: bindings/hf_xet/dbg
       - name: Upload wheels with separated debug symbols
         uses: actions/upload-artifact@v6
         with:
@@ -235,7 +235,7 @@ jobs:
         run: |
           VERSION=${TAG#v}
           if [ -n "$VERSION" ]; then
-            sed -i '/^version /s/=.*$/= "'"$VERSION"'"/' hf_xet/Cargo.toml
+            sed -i '/^version /s/=.*$/= "'"$VERSION"'"/' bindings/hf_xet/Cargo.toml
           fi
       - name: Build wheels
         uses: PyO3/maturin-action@v1
@@ -247,24 +247,24 @@ jobs:
       - name: Copy debug symbols
         shell: bash
         run: |
-          pushd hf_xet/dist
+          pushd bindings/hf_xet/dist
           LATEST_WHEEL=$(ls -tr1 *.whl | tail -n 1)
           WHEEL_NAME=$(basename $LATEST_WHEEL .whl)
           SYMBOL_FILE=${WHEEL_NAME}.pdb
           popd
 
-          mkdir hf_xet/dbg
-          cp hf_xet/target/${{ matrix.platform.rust_target }}/release/hf_xet.pdb hf_xet/dbg/${SYMBOL_FILE}
+          mkdir bindings/hf_xet/dbg
+          cp bindings/hf_xet/target/${{ matrix.platform.rust_target }}/release/hf_xet.pdb bindings/hf_xet/dbg/${SYMBOL_FILE}
       - name: Upload debug symbols
         uses: actions/upload-artifact@v6
         with:
           name: dbg-windows-${{ matrix.python-version }}-${{ matrix.platform.target }}
-          path: hf_xet/dbg
+          path: bindings/hf_xet/dbg
       - name: Upload wheels
         uses: actions/upload-artifact@v6
         with:
           name: wheels-windows-${{ matrix.python-version }}-${{ matrix.platform.target }}
-          path: hf_xet/dist
+          path: bindings/hf_xet/dist
 
   macos:
     runs-on: ${{ matrix.platform.runner }}
@@ -297,7 +297,7 @@ jobs:
         run: |
           VERSION=${TAG#v}
           if [ -n "$VERSION" ]; then
-            sed -i '' '/^version /s/=.*$/= "'"$VERSION"'"/' hf_xet/Cargo.toml
+            sed -i '' '/^version /s/=.*$/= "'"$VERSION"'"/' bindings/hf_xet/Cargo.toml
           fi
       - uses: ./.github/actions/set-build-profile
         with:
@@ -312,7 +312,7 @@ jobs:
       - name: Retarget and copy debug symbols
         if: env.IS_RELEASE == 'true'
         run: |
-          pushd hf_xet/dist
+          pushd bindings/hf_xet/dist
           LATEST_WHEEL=$(ls -tr1 *.whl | tail -n 1)
           WHEEL_NAME=$(basename $LATEST_WHEEL .whl)
           WHEEL_VERSION=$(echo $LATEST_WHEEL | cut -d '-' -f 2)
@@ -322,8 +322,8 @@ jobs:
           rm -rf hf_xet-${WHEEL_VERSION}
           popd
 
-          mkdir hf_xet/dbg
-          pushd hf_xet/target/${{ matrix.platform.rust_target}}/release-dbgsymbols
+          mkdir bindings/hf_xet/dbg
+          pushd bindings/hf_xet/target/${{ matrix.platform.rust_target}}/release-dbgsymbols
           sed -i '' "s/binary-path:.*/binary-path: '.\/${LIB_NAME}'/" libhf_xet.dylib.dSYM/Contents/Resources/Relocations/${{ matrix.platform.target }}/libhf_xet.dylib.yml
           cp -r libhf_xet.dylib.dSYM ../../../dbg/${SYMBOL_FILE}
       - name: Upload debug symbols
@@ -331,12 +331,12 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: dbg-macos-${{ matrix.python-version }}-${{ matrix.platform.target }}
-          path: hf_xet/dbg
+          path: bindings/hf_xet/dbg
       - name: Upload wheels
         uses: actions/upload-artifact@v6
         with:
           name: wheels-macos-${{ matrix.python-version }}-${{ matrix.platform.target }}
-          path: hf_xet/dist
+          path: bindings/hf_xet/dist
 
   sdist:
     runs-on: ubuntu-latest
@@ -348,7 +348,7 @@ jobs:
         run: |
           VERSION=${TAG#v}
           if [ -n "$VERSION" ]; then
-            sed -i '/^version /s/=.*$/= "'"$VERSION"'"/' hf_xet/Cargo.toml
+            sed -i '/^version /s/=.*$/= "'"$VERSION"'"/' bindings/hf_xet/Cargo.toml
           fi
       - name: Build sdist
         uses: PyO3/maturin-action@v1
@@ -358,7 +358,7 @@ jobs:
           working-directory: hf_xet
       - name: Patch sdist
         run: |
-          pushd hf_xet/dist
+          pushd bindings/hf_xet/dist
           DISTFILE=$(ls -tr1 hf_xet-*.tar.gz | tail -n 1)
           DISTNAME=${DISTFILE%.tar.gz}
           # maturin sdist will overwrite an edited pyproject.toml in the repo root, so we need to
@@ -371,7 +371,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: wheels-sdist
-          path: hf_xet/dist
+          path: bindings/hf_xet/dist
 
   release-pypi:
     name: Release PyPi

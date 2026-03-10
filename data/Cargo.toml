@@ -1,18 +1,59 @@
 [package]
-name = "data"
-version = "0.14.5"
+name = "xet-data"
+version = "1.3.2"
 edition = "2024"
 
 [lib]
+name = "xet_data"
+path = "src/lib.rs"
 doctest = false
+
+[dependencies]
+xet-runtime = { path = "../runtime" }
+xet-core-structures = { path = "../core_structures" }
+xet-client = { path = "../client" }
+
+anyhow = { workspace = true }
+async-trait = { workspace = true }
+bytes = { workspace = true }
+chrono = { workspace = true }
+clap = { workspace = true }
+gearhash = { workspace = true }
+http = { workspace = true }
+itertools = { workspace = true }
+lazy_static = { workspace = true }
+more-asserts = { workspace = true }
+prometheus = { workspace = true }
+rand = { workspace = true }
+regex = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tempfile = { workspace = true }
+thiserror = { workspace = true }
+tokio-util = { workspace = true }
+tracing = { workspace = true }
+ulid = { workspace = true }
+walkdir = { workspace = true }
+
+[target.'cfg(target_family = "wasm")'.dependencies]
+tokio = { workspace = true, features = ["sync", "macros", "io-util", "rt", "time"] }
+
+[target.'cfg(not(target_family = "wasm"))'.dependencies]
+tokio = { workspace = true, features = ["rt-multi-thread", "rt", "time"] }
+
+[target.'cfg(not(target_os = "windows"))'.dependencies]
+sha2 = { workspace = true, features = ["asm"] }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+sha2 = { workspace = true }
 
 [[bin]]
 name = "x"
-path = "src/bin/example.rs"
+path = "src/processing/bin/example.rs"
 
 [[bin]]
 name = "xtool"
-path = "src/bin/xtool.rs"
+path = "src/processing/bin/xtool.rs"
 
 [[example]]
 name = "chunk"
@@ -26,53 +67,14 @@ path = "examples/hash/main.rs"
 name = "xorb-check"
 path = "examples/xorb-check/main.rs"
 
-[dependencies]
-cas_client = { path = "../cas_client" }
-xorb_object = { path = "../xorb_object" }
-cas_types = { path = "../cas_types" }
-deduplication = { path = "../deduplication" }
-error_printer = { path = "../error_printer" }
-file_reconstruction = { path = "../file_reconstruction" }
-hub_client = { path = "../hub_client" }
-mdb_shard = { path = "../mdb_shard" }
-merklehash = { path = "../merklehash" }
-progress_tracking = { path = "../progress_tracking" }
-utils = { path = "../utils" }
-xet_runtime = { path = "../xet_runtime" }
-
-anyhow = { workspace = true }
-async-trait = { workspace = true }
-bytes = { workspace = true }
-chrono = { workspace = true }
-clap = { workspace = true }
-http = { workspace = true }
-itertools = { workspace = true }
-lazy_static = { workspace = true }
-more-asserts = { workspace = true }
-prometheus = { workspace = true }
-rand = { workspace = true }
-regex = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
-tempfile = { workspace = true }
-thiserror = { workspace = true }
-tokio = { workspace = true, features = ["rt-multi-thread", "rt"] }
-tracing = { workspace = true }
-ulid = { workspace = true }
-walkdir = { workspace = true }
-
-# Windows doesn't support assembly for compilation
-[target.'cfg(not(target_os = "windows"))'.dependencies]
-sha2 = { workspace = true, features = ["asm"] }
-
-[target.'cfg(target_os = "windows")'.dependencies]
-sha2 = { workspace = true }
-
 [dev-dependencies]
 ctor = { workspace = true }
 dirs = { workspace = true }
+rand = { workspace = true }
 serial_test = { workspace = true }
+tempfile = { workspace = true }
 tracing-test = { workspace = true }
+ulid = { workspace = true }
 
 [features]
 strict = []

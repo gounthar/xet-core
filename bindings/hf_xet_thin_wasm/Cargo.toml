@@ -1,0 +1,19 @@
+[package]
+name = "hf_xet_thin_wasm"
+version = "1.3.2"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+xet-core-structures = { path = "../../core_structures" }
+xet-data = { path = "../../data" }
+
+getrandom = { version = "0.3", features = ["wasm_js"] }
+serde = { version = "1", features = ["derive"] }
+serde-wasm-bindgen = "0.6.5"
+wasm-bindgen = "=0.2.100"
+
+[package.metadata.cargo-machete]
+ignored = ["getrandom"]

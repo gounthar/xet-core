@@ -2,29 +2,19 @@
 resolver = "2"
 
 members = [
-    "cas_client",
-    "simulation",
-    "xorb_object",
-    "cas_types",
-    "chunk_cache",
-    "xet_config",
+    # Consolidated packages
+    "runtime",
+    "core_structures",
+    "client",
     "data",
-    "deduplication",
-    "error_printer",
-    "file_reconstruction",
-    "file_utils",
-    "git_xet",
-    "hub_client",
-    "mdb_shard",
-    "merklehash",
-    "progress_tracking",
-    "utils",
-    "xet_logging",
-    "xet_runtime",
-    "xet_session",
+    "libxet",
+
+    # Top-level crates (not published as packages)
+    "git/git_xet",
+    "simulation",
 ]
 
-exclude = ["chunk_cache_bench", "hf_xet", "hf_xet_wasm", "hf_xet_thin_wasm"]
+exclude = ["simulation/chunk_cache_bench", "bindings/hf_xet", "bindings/hf_xet_wasm", "bindings/hf_xet_thin_wasm"]
 
 [profile.release]
 opt-level = 3

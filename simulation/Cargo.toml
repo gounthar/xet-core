@@ -1,6 +1,6 @@
 [package]
 name = "simulation"
-version = "0.1.0"
+version = "1.3.2"
 edition = "2024"
 
 [lib]
@@ -15,7 +15,9 @@ name = "run_upload_simulations"
 path = "src/bin/run_upload_simulations.rs"
 
 [dependencies]
-cas_client = { path = "../cas_client" }
+xet-runtime = { path = "../runtime" }
+xet-client = { path = "../client" }
+
 chrono = { workspace = true }
 duration-str = { workspace = true }
 clap = { workspace = true }
@@ -26,8 +28,6 @@ thiserror = { workspace = true }
 tokio = { workspace = true }
 tokio-util = { workspace = true }
 tracing = { workspace = true }
-xet_logging = { path = "../xet_logging" }
-xet_runtime = { path = "../xet_runtime" }
 
 bytes = { workspace = true }
 http = { workspace = true }

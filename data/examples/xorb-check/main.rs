@@ -3,8 +3,8 @@ use std::io::{BufReader, BufWriter, Read, Write};
 use std::path::PathBuf;
 
 use clap::Parser;
-use merklehash::{MerkleHash, compute_data_hash, xorb_hash};
-use utils::output_bytes;
+use xet_core_structures::merklehash::{MerkleHash, compute_data_hash, xorb_hash};
+use xet_runtime::utils::output_bytes;
 
 #[derive(Debug, Parser)]
 struct XorbCheckArgs {
@@ -48,7 +48,7 @@ fn main() {
         None => Box::new(std::io::stdin()),
     };
 
-    let (data, boundaries) = match xorb_object::deserialize_chunks(&mut input) {
+    let (data, boundaries) = match xet_core_structures::xorb_object::deserialize_chunks(&mut input) {
         Ok(chunks) => chunks,
         Err(e) => panic!("failed to deserialize xorb: {e}"),
     };

@@ -1,6 +1,6 @@
-use data::test_utils::*;
-use deduplication::constants::{MAX_XORB_BYTES, MAX_XORB_CHUNKS, TARGET_CHUNK_SIZE};
-use utils::test_set_constants;
+use xet_data::deduplication::constants::{MAX_XORB_BYTES, MAX_XORB_CHUNKS, TARGET_CHUNK_SIZE};
+use xet_data::processing::test_utils::*;
+use xet_runtime::test_set_constants;
 
 // Runs this test suite with small chunks and xorbs so that we can make sure that all the different edge
 // cases are hit.

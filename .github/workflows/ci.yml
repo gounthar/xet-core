@@ -23,7 +23,7 @@ jobs:
       - name: Format
         run: |
           cargo fmt --manifest-path ./Cargo.toml --all -- --check
-          cargo fmt --manifest-path ./hf_xet/Cargo.toml --all -- --check
+          cargo fmt --manifest-path ./bindings/hf_xet/Cargo.toml --all -- --check
   detect-unused-dependencies:
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +43,7 @@ jobs:
       - name: Lint
         run: |
           cargo clippy -r --verbose -- -D warnings # elevates warnings to errors
-          cargo clippy -r --verbose --manifest-path hf_xet/Cargo.toml -- -D warnings # elevates warnings to errors
+          cargo clippy -r --verbose --manifest-path bindings/hf_xet/Cargo.toml -- -D warnings # elevates warnings to errors
       - name: Set up Git LFS
         run: |
           curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
@@ -54,7 +54,7 @@ jobs:
           cargo test --verbose --no-fail-fast --features "strict git-xet-for-integration-test"
       - name: Build and Test hf_xet
         run: |
-          cd hf_xet && cargo test --verbose --no-fail-fast
+          cd bindings/hf_xet && cargo test --verbose --no-fail-fast
       - name: Check Cargo.lock has no uncommitted changes
         run: |
           # the build and test steps would update Cargo.lock if it is out of date
@@ -74,7 +74,7 @@ jobs:
           cargo test --verbose --no-fail-fast --features "strict git-xet-for-integration-test"
       - name: Build and Test hf_xet
         run: |
-          cd hf_xet && cargo test --verbose --no-fail-fast
+          cd bindings/hf_xet && cargo test --verbose --no-fail-fast
   build_and_test-macos:
     runs-on: macos-latest
     steps:
@@ -94,7 +94,7 @@ jobs:
           cargo test --verbose --no-fail-fast --features "strict git-xet-for-integration-test"
       - name: Build and Test hf_xet
         run: |
-          cd hf_xet && cargo test --verbose --no-fail-fast
+          cd bindings/hf_xet && cargo test --verbose --no-fail-fast
   build_and_test-wasm:
     name: Build WASM
     runs-on: ubuntu-latest
@@ -112,10 +112,10 @@ jobs:
           cargo install --version 0.2.100 wasm-bindgen-cli
           cargo install --version 0.13.1 wasm-pack
       - name: Build hf_xet_thin_wasm
-        working-directory: hf_xet_thin_wasm
+        working-directory: bindings/hf_xet_thin_wasm
         run: |
           ./build_wasm.sh
       - name: Build hf_xet_wasm
-        working-directory: hf_xet_wasm
+        working-directory: bindings/hf_xet_wasm
         run: |
           ./build_wasm.sh
