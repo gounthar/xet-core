@@ -126,7 +126,7 @@ impl PartialEq for ClientError {
 }
 
 #[cfg(not(target_family = "wasm"))]
-impl From<xet_runtime::utils::errors::SingleflightError<ClientError>> for ClientError {
+impl From<xet_runtime::utils::singleflight::SingleflightError<ClientError>> for ClientError {
     fn from(value: xet_runtime::utils::singleflight::SingleflightError<ClientError>) -> Self {
         match value {
             xet_runtime::utils::singleflight::SingleflightError::InternalError(e) => e,
