@@ -11,6 +11,7 @@ use std::time::Duration;
 
 use async_trait::async_trait;
 use http::header::{self, HeaderMap, HeaderValue};
+#[cfg(unix)]
 use tempfile::TempDir;
 use tokio::sync::oneshot;
 
@@ -180,7 +181,7 @@ impl LocalTestServerBuilder {
         };
 
         #[cfg(not(unix))]
-        let socket_path = if self.ephemeral_socket { None } else { self.socket_path };
+        let _socket_path = if self.ephemeral_socket { None } else { self.socket_path };
 
         let client: Arc<dyn DirectAccessClient> = if let Some(client) = self.client {
             client

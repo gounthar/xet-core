@@ -881,8 +881,7 @@ mod tests {
 
             {
                 let merged_shards =
-                    consolidate_shards_in_directory(tmp_dir.path(), xet_config().shard.max_target_size, false)
-                        .unwrap();
+                    consolidate_shards_in_directory(tmp_dir.path(), xet_config().shard.max_target_size, false).unwrap();
 
                 assert_eq!(merged_shards.len(), 1);
 
