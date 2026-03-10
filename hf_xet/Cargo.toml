@@ -10,9 +10,9 @@ name = "hf_xet"
 crate-type = ["cdylib", "lib"]
 
 [dependencies]
-xet-runtime = { path = "../../runtime" }
-xet-client = { path = "../../client" }
-xet-data = { path = "../../data" }
+xet-runtime = { path = "../runtime" }
+xet-client = { path = "../client" }
+xet-data = { path = "../data" }
 
 async-trait = "0.1"
 chrono = "0.4"

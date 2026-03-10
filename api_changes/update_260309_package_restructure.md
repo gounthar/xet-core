@@ -58,9 +58,9 @@ internal imports have been updated but their public APIs are unchanged.
 
 | Crate | Location |
 |---|---|
-| `hf_xet` | `bindings/hf_xet/` |
-| `hf_xet_wasm` | `bindings/hf_xet_wasm/` |
-| `hf_xet_thin_wasm` | `bindings/hf_xet_thin_wasm/` |
+| `hf_xet` | `hf_xet/` |
+| `hf_xet_wasm` | `wasm/hf_xet_wasm/` |
+| `hf_xet_thin_wasm` | `wasm/hf_xet_thin_wasm/` |
 
 ### `git_xet` moved
 
@@ -638,7 +638,7 @@ category.
 
 ## 5. Changes to `hf_xet_wasm` Error Type
 
-`DataProcessingError` in `bindings/hf_xet_wasm/src/errors.rs` was updated:
+`DataProcessingError` in `wasm/hf_xet_wasm/src/errors.rs` was updated:
 
 | Old | New |
 |---|---|
@@ -704,7 +704,7 @@ progress_tracking = { path = "../progress_tracking" }
 xet-session = { path = "../xet_session" }
 
 # New
-xet-runtime = { path = "../runtime" }          # or "../../runtime" from bindings/
+xet-runtime = { path = "../runtime" }          # or "../../runtime" from wasm/
 xet-core-structures = { path = "../core_structures" }
 xet-client = { path = "../client" }
 xet-data = { path = "../data" }
