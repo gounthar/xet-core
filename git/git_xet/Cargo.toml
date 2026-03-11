@@ -2,6 +2,7 @@
 name = "git_xet"
 version = "0.2.1"
 edition = "2024"
+publish = false
 
 [[bin]]
 name = "git-xet"

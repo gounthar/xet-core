@@ -2,6 +2,7 @@
 name = "simulation"
 version = "1.3.2"
 edition = "2024"
+publish = false
 
 [lib]
 path = "src/lib.rs"

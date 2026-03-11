@@ -24,7 +24,7 @@ names and paths listed below.
 | `xet_core_structures/` | `xet-core-structures` | `xet_core_structures` |
 | `xet_client/` | `xet-client` | `xet_client` |
 | `xet_data/` | `xet-data` | `xet_data` |
-| `xet/` | `xet` | `xet` |
+| `xet_pkg/` | `hf-xet` | `xet` |
 | `git/git_xet/` | `git_xet` | `git_xet` |
 | `simulation/` | `simulation` | `simulation` |
 
@@ -556,7 +556,7 @@ This is the top-level public error type.  Variants are divided into
 
 **Backward-compatibility alias:**
 ```rust
-// In xet/src/xet_session/errors.rs:
+// In xet_pkg/src/xet_session/errors.rs:
 pub use crate::error::XetError as SessionError;
 ```
 
@@ -708,7 +708,7 @@ xet-runtime = { path = "../xet_runtime" }          # or "../../xet_runtime" from
 xet-core-structures = { path = "../xet_core_structures" }
 xet-client = { path = "../xet_client" }
 xet-data = { path = "../xet_data" }
-xet = { path = "../xet" }
+hf-xet = { path = "../xet_pkg" }
 ```
 
 The `git_xet` crate moved from `git_xet/` to `git/git_xet/`, so its relative

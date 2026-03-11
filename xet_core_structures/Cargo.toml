@@ -1,7 +1,10 @@
 [package]
 name = "xet-core-structures"
-version = "1.3.2"
-edition = "2024"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Core data structures including MerkleHash, metadata shards, and xorb objects"
 
 [lib]
 name = "xet_core_structures"
@@ -18,7 +21,7 @@ harness = false
 bench = true
 
 [dependencies]
-xet-runtime = { path = "../xet_runtime" }
+xet-runtime = { version = "1.3.2", path = "../xet_runtime" }
 
 anyhow = { workspace = true }
 async-trait = { workspace = true }

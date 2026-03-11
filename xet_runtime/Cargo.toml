@@ -1,7 +1,10 @@
 [package]
 name = "xet-runtime"
-version = "1.3.2"
-edition = "2024"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Async runtime, configuration, logging, and utility infrastructure for the Hugging Face Xet client tools"
 
 [lib]
 name = "xet_runtime"
@@ -66,7 +69,7 @@ path = "tests/bin/log_test_executable.rs"
 
 [dev-dependencies]
 anyhow = { workspace = true }
-xet-core-structures = { path = "../xet_core_structures" }
+xet-core-structures = { version = "1.3.2", path = "../xet_core_structures" }
 
 rand = { workspace = true }
 serial_test = { workspace = true }

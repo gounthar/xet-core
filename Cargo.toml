@@ -1,20 +1,24 @@
 [workspace]
 resolver = "2"
-
 members = [
     # Consolidated packages
     "xet_runtime",
     "xet_core_structures",
     "xet_client",
     "xet_data",
-    "xet",
+    "xet_pkg",
 
     # Top-level crates (not published as packages)
     "git/git_xet",
     "simulation",
 ]
-
 exclude = ["simulation/chunk_cache_bench", "hf_xet", "wasm/hf_xet_wasm", "wasm/hf_xet_thin_wasm"]
+
+[workspace.package]
+version = "1.3.2"
+edition = "2024"
+license = "Apache-2.0"
+repository = "https://github.com/huggingface/xet-core"
 
 [profile.release]
 opt-level = 3
