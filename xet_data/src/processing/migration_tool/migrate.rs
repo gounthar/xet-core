@@ -101,7 +101,7 @@ pub async fn migrate_files_impl(
     let sha256s: Box<dyn Iterator<Item = String> + Send> = match sha256s {
         Some(v) => {
             if v.len() != file_paths.len() {
-                return Err(anyhow!("mistached length of the file list and the sha256 list"));
+                return Err(anyhow!("mismatched length of the file list and the sha256 list"));
             }
             Box::new(v.into_iter())
         },

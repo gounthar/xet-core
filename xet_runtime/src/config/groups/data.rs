@@ -30,8 +30,6 @@ crate::config_group!({
     ref max_concurrent_file_ingestion: usize = 8;
 
     /// The maximum number of files to ingest at once on the download path.
-    /// High performance mode (enabled via HF_XET_HIGH_PERFORMANCE or HF_XET_HP)
-    /// automatically sets this to 100 via XetConfig::with_high_performance().
     ///
     /// The default value is 8.
     ///

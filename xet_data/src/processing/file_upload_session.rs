@@ -221,7 +221,7 @@ impl FileUploadSession {
                     // Record dedup information.
                     let span = Span::current();
                     span.record("file.new_bytes", metrics.new_bytes);
-                    span.record("file.deduped_bytes ", metrics.deduped_bytes);
+                    span.record("file.deduped_bytes", metrics.deduped_bytes);
                     span.record("file.defrag_prevented_dedup_bytes", metrics.defrag_prevented_dedup_bytes);
                     span.record("file.new_chunks", metrics.new_chunks);
                     span.record("file.deduped_chunks", metrics.deduped_chunks);

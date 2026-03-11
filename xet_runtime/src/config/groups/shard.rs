@@ -2,7 +2,7 @@ use crate::utils::ByteSize;
 
 crate::config_group!({
 
-    /// The target shard size; shards.
+    /// The target shard size in bytes.
     ///
     /// The default value is 67108864.
     ///

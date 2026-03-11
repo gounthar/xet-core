@@ -170,7 +170,7 @@ pub async fn upload_async(
         Some(v) => {
             if v.len() != file_paths.len() {
                 return Err(DataProcessingError::ParameterError(
-                    "mistached length of the file list and the sha256 list".into(),
+                    "mismatched length of the file list and the sha256 list".into(),
                 ));
             }
             Box::new(v.iter().map(|s| Sha256::from_hex(s).ok()))
@@ -187,7 +187,7 @@ pub async fn upload_async(
 
     // Record dedup metrics.
     span.record("new_bytes", metrics.new_bytes);
-    span.record("deduped_bytes ", metrics.deduped_bytes);
+    span.record("deduped_bytes", metrics.deduped_bytes);
     span.record("defrag_prevented_dedup_bytes", metrics.defrag_prevented_dedup_bytes);
     span.record("new_chunks", metrics.new_chunks);
     span.record("deduped_chunks", metrics.deduped_chunks);

@@ -101,7 +101,7 @@ impl From<FormatError> for XetError {
                 XetError::Configuration(e.to_string())
             },
             FormatError::Compression(_) => XetError::DataIntegrity(e.to_string()),
-            FormatError::Runtime(re) => XetError::Internal(re.to_string()).into_runtime_category(re),
+            FormatError::Runtime(re) => XetError::from_runtime_error_ref(re),
             FormatError::TaskRuntime(_) | FormatError::TaskJoin(_) => XetError::Internal(e.to_string()),
             _ => XetError::Internal(e.to_string()),
         }
@@ -140,7 +140,7 @@ impl From<DataError> for XetError {
             DataError::ClientError(ce) => XetError::from_client_error_ref(ce),
             DataError::FormatError(fe) => XetError::from_format_error_ref(fe),
             DataError::IOError(_) => XetError::Io(e.to_string()),
-            DataError::RuntimeError(re) => XetError::Internal(re.to_string()).into_runtime_category(re),
+            DataError::RuntimeError(re) => XetError::from_runtime_error_ref(re),
             DataError::FileQueryPolicyError(_)
             | DataError::CASConfigError(_)
             | DataError::ShardConfigError(_)
@@ -161,10 +161,17 @@ impl XetError {
         match fe {
             FormatError::Io(_) => XetError::Io(fe.to_string()),
             FormatError::ShardNotFound(_) | FormatError::FileNotFound(_) => XetError::NotFound(fe.to_string()),
-            FormatError::HashMismatch | FormatError::InvalidShard(_) | FormatError::Format(_) => {
-                XetError::DataIntegrity(fe.to_string())
+            FormatError::HashMismatch
+            | FormatError::TruncatedHashCollision(_)
+            | FormatError::InvalidShard(_)
+            | FormatError::ShardVersion(_)
+            | FormatError::ChunkHeaderParse
+            | FormatError::Format(_)
+            | FormatError::Compression(_) => XetError::DataIntegrity(fe.to_string()),
+            FormatError::InvalidRange | FormatError::InvalidArguments | FormatError::BadFilename(_) => {
+                XetError::Configuration(fe.to_string())
             },
-            FormatError::InvalidRange | FormatError::InvalidArguments => XetError::Configuration(fe.to_string()),
+            FormatError::Runtime(re) => XetError::from_runtime_error_ref(re),
             _ => XetError::Internal(fe.to_string()),
         }
     }
@@ -172,16 +179,23 @@ impl XetError {
     fn from_client_error_ref(ce: &ClientError) -> Self {
         match ce {
             ClientError::AuthError(_) => XetError::Authentication(ce.to_string()),
-            ClientError::ReqwestError(_, _) | ClientError::ReqwestMiddlewareError(_) => {
-                XetError::Network(ce.to_string())
-            },
+            ClientError::ReqwestError(_, _)
+            | ClientError::ReqwestMiddlewareError(_)
+            | ClientError::PresignedUrlExpirationError => XetError::Network(ce.to_string()),
             ClientError::FileNotFound(_) | ClientError::XORBNotFound(_) => XetError::NotFound(ce.to_string()),
+            ClientError::ConfigurationError(_)
+            | ClientError::InvalidArguments
+            | ClientError::InvalidRange
+            | ClientError::InvalidShardKey(_)
+            | ClientError::InvalidKey(_)
+            | ClientError::InvalidRepoType(_) => XetError::Configuration(ce.to_string()),
             ClientError::IOError(_) => XetError::Io(ce.to_string()),
+            ClientError::FormatError(fe) => XetError::from_format_error_ref(fe),
             _ => XetError::Internal(ce.to_string()),
         }
     }
 
-    fn into_runtime_category(self, re: &RuntimeError) -> Self {
+    fn from_runtime_error_ref(re: &RuntimeError) -> Self {
         match re {
             RuntimeError::TaskCanceled(_) => XetError::Cancelled(re.to_string()),
             _ => XetError::Internal(re.to_string()),

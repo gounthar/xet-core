@@ -34,7 +34,7 @@ impl UploadSessionDataManager {
 impl DeduplicationDataInterface for UploadSessionDataManager {
     type ErrorType = super::errors::DataProcessingError;
 
-    /// Query for possible
+    /// Query for possible shards that may dedup some chunks.
     async fn chunk_hash_dedup_query(
         &self,
         query_hashes: &[MerkleHash],
