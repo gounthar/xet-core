@@ -9,9 +9,9 @@ name = "git-xet"
 path = "src/bin/main.rs"
 
 [dependencies]
-xet-runtime = { path = "../../xet_runtime" }
-xet-client = { path = "../../xet_client" }
-xet-data = { path = "../../xet_data" }
+xet-runtime = { path = "../xet_runtime" }
+xet-client = { path = "../xet_client" }
+xet-data = { path = "../xet_data" }
 
 anyhow = { workspace = true }
 async-trait = { workspace = true }

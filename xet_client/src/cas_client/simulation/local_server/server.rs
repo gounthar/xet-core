@@ -313,7 +313,7 @@ impl LocalTestServer {
     async fn start_with_client_and_socket(
         client: Arc<dyn DirectAccessClient>,
         deletion_client: Option<Arc<dyn DeletionControlableClient>>,
-        socket_path: Option<PathBuf>,
+        _socket_path: Option<PathBuf>,
     ) -> Self {
         let port = Self::find_available_port();
         let host = "127.0.0.1".to_string();
@@ -330,10 +330,10 @@ impl LocalTestServer {
 
         let mut headers = HeaderMap::new();
         headers.insert(header::USER_AGENT, HeaderValue::from_static("test-agent"));
-        let (remote_client, socket_proxy) = {
+        let (remote_client, _socket_proxy) = {
             #[cfg(unix)]
             {
-                if let Some(socket_path) = socket_path {
+                if let Some(socket_path) = _socket_path {
                     // Extract host:port from http://host:port
                     let tcp_addr = tcp_endpoint.strip_prefix("http://").unwrap_or(&tcp_endpoint).to_string();
 
@@ -376,7 +376,7 @@ impl LocalTestServer {
             client,
             deletion_client,
             #[cfg(unix)]
-            _socket_proxy: socket_proxy,
+            _socket_proxy,
         }
     }
 

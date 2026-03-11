@@ -25,7 +25,7 @@ names and paths listed below.
 | `xet_client/` | `xet-client` | `xet_client` |
 | `xet_data/` | `xet-data` | `xet_data` |
 | `xet_pkg/` | `hf-xet` | `xet` |
-| `git/git_xet/` | `git_xet` | `git_xet` |
+| `git_xet/` | `git_xet` | `git_xet` |
 | `simulation/` | `simulation` | `simulation` |
 
 ### Old crate → new location mapping
@@ -62,9 +62,9 @@ internal imports have been updated but their public APIs are unchanged.
 | `hf_xet_wasm` | `wasm/hf_xet_wasm/` |
 | `hf_xet_thin_wasm` | `wasm/hf_xet_thin_wasm/` |
 
-### `git_xet` moved
+### `git_xet` location
 
-The `git_xet` crate moved from `git_xet/` to `git/git_xet/`.
+The `git_xet` crate remains at `git_xet/` in the repository root.
 
 ---
 
@@ -624,7 +624,7 @@ category.
 
 ## 4. Changes to `git_xet` Error Type
 
-`GitXetError` in `git/git_xet/src/errors.rs` was updated:
+`GitXetError` in `git_xet/src/errors.rs` was updated:
 
 | Old | New |
 |---|---|
@@ -711,8 +711,8 @@ xet-data = { path = "../xet_data" }
 hf-xet = { path = "../xet_pkg" }
 ```
 
-The `git_xet` crate moved from `git_xet/` to `git/git_xet/`, so its relative
-paths use `../../` instead of `../`.
+The `git_xet` crate is at `git_xet/` in the repository root, so its relative
+paths use `../` (same as the other workspace crates).
 
 ---
 
