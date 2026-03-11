@@ -68,95 +68,13 @@ impl XetError {
     pub fn other(msg: impl std::fmt::Display) -> Self {
         Self::Internal(msg.to_string())
     }
-}
-
-// -- From<RuntimeError> --------------------------------------------------
-
-impl From<RuntimeError> for XetError {
-    fn from(e: RuntimeError) -> Self {
-        match &e {
-            RuntimeError::RuntimeInit(_) => XetError::Internal(e.to_string()),
-            RuntimeError::TaskPanic(_) => XetError::Internal(e.to_string()),
-            RuntimeError::TaskCanceled(_) => XetError::Cancelled(e.to_string()),
-            RuntimeError::Other(_) => XetError::Internal(e.to_string()),
-            _ => XetError::Internal(e.to_string()),
+    fn from_runtime_error_ref(re: &RuntimeError) -> Self {
+        match re {
+            RuntimeError::TaskCanceled(_) => XetError::Cancelled(re.to_string()),
+            _ => XetError::Internal(re.to_string()),
         }
     }
-}
 
-// -- From<FormatError> ---------------------------------------------------
-
-impl From<FormatError> for XetError {
-    fn from(e: FormatError) -> Self {
-        match &e {
-            FormatError::Io(_) => XetError::Io(e.to_string()),
-            FormatError::ShardNotFound(_) | FormatError::FileNotFound(_) => XetError::NotFound(e.to_string()),
-            FormatError::HashMismatch
-            | FormatError::TruncatedHashCollision(_)
-            | FormatError::InvalidShard(_)
-            | FormatError::ShardVersion(_)
-            | FormatError::ChunkHeaderParse
-            | FormatError::Format(_) => XetError::DataIntegrity(e.to_string()),
-            FormatError::InvalidRange | FormatError::InvalidArguments | FormatError::BadFilename(_) => {
-                XetError::Configuration(e.to_string())
-            },
-            FormatError::Compression(_) => XetError::DataIntegrity(e.to_string()),
-            FormatError::Runtime(re) => XetError::from_runtime_error_ref(re),
-            FormatError::TaskRuntime(_) | FormatError::TaskJoin(_) => XetError::Internal(e.to_string()),
-            _ => XetError::Internal(e.to_string()),
-        }
-    }
-}
-
-// -- From<ClientError> ---------------------------------------------------
-
-impl From<ClientError> for XetError {
-    fn from(e: ClientError) -> Self {
-        match &e {
-            ClientError::AuthError(_) => XetError::Authentication(e.to_string()),
-            ClientError::ReqwestError(_, _)
-            | ClientError::ReqwestMiddlewareError(_)
-            | ClientError::PresignedUrlExpirationError => XetError::Network(e.to_string()),
-            ClientError::FileNotFound(_) | ClientError::XORBNotFound(_) => XetError::NotFound(e.to_string()),
-            ClientError::ConfigurationError(_)
-            | ClientError::InvalidArguments
-            | ClientError::InvalidRange
-            | ClientError::InvalidShardKey(_)
-            | ClientError::InvalidKey(_)
-            | ClientError::InvalidRepoType(_) => XetError::Configuration(e.to_string()),
-            ClientError::IOError(_) => XetError::Io(e.to_string()),
-            ClientError::FormatError(fe) => XetError::from_format_error_ref(fe),
-            _ => XetError::Internal(e.to_string()),
-        }
-    }
-}
-
-// -- From<DataError> -----------------------------------------------------
-
-impl From<DataError> for XetError {
-    fn from(e: DataError) -> Self {
-        match &e {
-            DataError::AuthError(_) => XetError::Authentication(e.to_string()),
-            DataError::ClientError(ce) => XetError::from_client_error_ref(ce),
-            DataError::FormatError(fe) => XetError::from_format_error_ref(fe),
-            DataError::IOError(_) => XetError::Io(e.to_string()),
-            DataError::RuntimeError(re) => XetError::from_runtime_error_ref(re),
-            DataError::FileQueryPolicyError(_)
-            | DataError::CASConfigError(_)
-            | DataError::ShardConfigError(_)
-            | DataError::DedupConfigError(_)
-            | DataError::ParameterError(_)
-            | DataError::DeprecatedError(_) => XetError::Configuration(e.to_string()),
-            DataError::HashNotFound => XetError::NotFound(e.to_string()),
-            DataError::HashStringParsingFailure(_) => XetError::DataIntegrity(e.to_string()),
-            _ => XetError::Internal(e.to_string()),
-        }
-    }
-}
-
-// -- Helpers for nested conversions without moving the outer error -------
-
-impl XetError {
     fn from_format_error_ref(fe: &FormatError) -> Self {
         match fe {
             FormatError::Io(_) => XetError::Io(fe.to_string()),
@@ -195,11 +113,49 @@ impl XetError {
         }
     }
 
-    fn from_runtime_error_ref(re: &RuntimeError) -> Self {
-        match re {
-            RuntimeError::TaskCanceled(_) => XetError::Cancelled(re.to_string()),
-            _ => XetError::Internal(re.to_string()),
+    fn from_data_error_ref(de: &DataError) -> Self {
+        match de {
+            DataError::AuthError(_) => XetError::Authentication(de.to_string()),
+            DataError::ClientError(ce) => XetError::from_client_error_ref(ce),
+            DataError::FormatError(fe) => XetError::from_format_error_ref(fe),
+            DataError::IOError(_) => XetError::Io(de.to_string()),
+            DataError::RuntimeError(re) => XetError::from_runtime_error_ref(re),
+            DataError::FileQueryPolicyError(_)
+            | DataError::CASConfigError(_)
+            | DataError::ShardConfigError(_)
+            | DataError::DedupConfigError(_)
+            | DataError::ParameterError(_)
+            | DataError::DeprecatedError(_) => XetError::Configuration(de.to_string()),
+            DataError::HashNotFound => XetError::NotFound(de.to_string()),
+            DataError::HashStringParsingFailure(_) => XetError::DataIntegrity(de.to_string()),
+            _ => XetError::Internal(de.to_string()),
         }
+    }
+}
+
+// -- From impls for package-level errors ---------------------------------
+
+impl From<RuntimeError> for XetError {
+    fn from(e: RuntimeError) -> Self {
+        XetError::from_runtime_error_ref(&e)
+    }
+}
+
+impl From<FormatError> for XetError {
+    fn from(e: FormatError) -> Self {
+        XetError::from_format_error_ref(&e)
+    }
+}
+
+impl From<ClientError> for XetError {
+    fn from(e: ClientError) -> Self {
+        XetError::from_client_error_ref(&e)
+    }
+}
+
+impl From<DataError> for XetError {
+    fn from(e: DataError) -> Self {
+        XetError::from_data_error_ref(&e)
     }
 }
 
@@ -242,5 +198,55 @@ impl<T> From<std::sync::PoisonError<std::sync::RwLockWriteGuard<'_, T>>> for Xet
 impl<T> From<std::sync::PoisonError<std::sync::RwLockReadGuard<'_, T>>> for XetError {
     fn from(e: std::sync::PoisonError<std::sync::RwLockReadGuard<'_, T>>) -> Self {
         XetError::Internal(format!("RwLock read poisoned: {e}"))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use xet_client::cas_client::auth::AuthError;
+    use xet_core_structures::merklehash::MerkleHash;
+
+    use super::*;
+
+    #[test]
+    fn runtime_cancelled_maps_to_cancelled() {
+        let err = XetError::from(RuntimeError::TaskCanceled("worker stopped".to_string()));
+        assert!(matches!(err, XetError::Cancelled(_)));
+    }
+
+    #[test]
+    fn format_not_found_maps_to_not_found() {
+        let err = XetError::from(FormatError::ShardNotFound(MerkleHash::default()));
+        assert!(matches!(err, XetError::NotFound(_)));
+    }
+
+    #[test]
+    fn format_invalid_args_maps_to_configuration() {
+        let err = XetError::from(FormatError::InvalidArguments);
+        assert!(matches!(err, XetError::Configuration(_)));
+    }
+
+    #[test]
+    fn client_auth_maps_to_authentication() {
+        let err = XetError::from(ClientError::AuthError(AuthError::TokenRefreshFailure("bad token".to_string())));
+        assert!(matches!(err, XetError::Authentication(_)));
+    }
+
+    #[test]
+    fn client_nested_format_maps_using_format_rules() {
+        let err = XetError::from(ClientError::FormatError(FormatError::InvalidRange));
+        assert!(matches!(err, XetError::Configuration(_)));
+    }
+
+    #[test]
+    fn data_nested_client_maps_using_client_rules() {
+        let err = XetError::from(DataError::ClientError(ClientError::FileNotFound(MerkleHash::default())));
+        assert!(matches!(err, XetError::NotFound(_)));
+    }
+
+    #[test]
+    fn data_runtime_cancelled_maps_to_cancelled() {
+        let err = XetError::from(DataError::RuntimeError(RuntimeError::TaskCanceled("cancelled".to_string())));
+        assert!(matches!(err, XetError::Cancelled(_)));
     }
 }
