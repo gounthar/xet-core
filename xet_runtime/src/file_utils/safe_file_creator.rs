@@ -194,10 +194,12 @@ mod tests {
         assert_eq!(contents.trim(), "Hello, world!");
 
         // Verify file permissions
-        let metadata = fs::metadata(&dest_path).unwrap();
-        let permissions = metadata.permissions();
         #[cfg(unix)]
-        assert_eq!(permissions.mode() & 0o777, 0o644); // Assuming default creation mode
+        {
+            let metadata = fs::metadata(&dest_path).unwrap();
+            let permissions = metadata.permissions();
+            assert_eq!(permissions.mode() & 0o777, 0o644); // Assuming default creation mode
+        }
     }
 
     #[test]
@@ -221,10 +223,12 @@ mod tests {
         assert_eq!(contents.trim(), "Hello, world!");
 
         // Verify file permissions
-        let metadata = fs::metadata(&dest_path).unwrap();
-        let permissions = metadata.permissions();
         #[cfg(unix)]
-        assert_eq!(permissions.mode() & 0o777, 0o644); // Assuming default creation mode
+        {
+            let metadata = fs::metadata(&dest_path).unwrap();
+            let permissions = metadata.permissions();
+            assert_eq!(permissions.mode() & 0o777, 0o644); // Assuming default creation mode
+        }
     }
 
     #[test]
@@ -236,10 +240,12 @@ mod tests {
         {
             let mut file = File::create(&dest_path).unwrap();
             file.write_all(b"Old content").unwrap();
-            let mut perms = file.metadata().unwrap().permissions();
             #[cfg(unix)]
-            perms.set_mode(0o600);
-            fs::set_permissions(&dest_path, perms).unwrap();
+            {
+                let mut perms = file.metadata().unwrap().permissions();
+                perms.set_mode(0o600);
+                fs::set_permissions(&dest_path, perms).unwrap();
+            }
         }
 
         let mut safe_file_creator = SafeFileCreator::replace_existing(&dest_path).unwrap();
@@ -252,10 +258,12 @@ mod tests {
         assert_eq!(contents.trim(), "New content");
 
         // Verify file permissions
-        let metadata = fs::metadata(&dest_path).unwrap();
-        let permissions = metadata.permissions();
         #[cfg(unix)]
-        assert_eq!(permissions.mode() & 0o777, 0o600); // Original file mode
+        {
+            let metadata = fs::metadata(&dest_path).unwrap();
+            let permissions = metadata.permissions();
+            assert_eq!(permissions.mode() & 0o777, 0o600); // Original file mode
+        }
     }
 
     #[test]
