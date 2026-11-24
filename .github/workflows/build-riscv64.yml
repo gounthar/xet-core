@@ -8,7 +8,7 @@ on:
         required: false
         type: string
   schedule:
-    - cron: '0 2 * * 0'
+    - cron: '0 22 * * 0'  # Sun 22:00 UTC; F3 weekly builds are spread over the week
 
 jobs:
   build:
